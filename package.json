@@ -3,12 +3,18 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "build:gh-pages": "VITE_BASE=/cdn_webpage/ vite build && cp dist/index.html dist/404.html",
-    "preview:gh-pages": "npm run build:gh-pages && vite preview --base /cdn_webpage/"
+    "dev": "bash scripts/with-zshrc-env.sh vite",
+    "build": "bash scripts/with-zshrc-env.sh vite build",
+    "preview": "bash scripts/with-zshrc-env.sh vite preview",
+    "build:github": "bash scripts/with-zshrc-env.sh bash -c 'node scripts/check-node.mjs && VITE_BASE_PATH=/ vite build'",
+    "build:github-subpath": "bash scripts/with-zshrc-env.sh bash -c 'node scripts/check-node.mjs && VITE_BASE_PATH=/cdn_webpage/ vite build'",
+    "preview:github-subpath": "npm run build:github-subpath && bash scripts/with-zshrc-env.sh vite preview --base /cdn_webpage/",
+    "pages:to-docs": "npm run build:github-subpath && bash scripts/with-zshrc-env.sh node scripts/sync-dist-to-repo-docs.mjs",
+    "pages:deploy": "bash scripts/deploy-github-pages.sh"
   },
   "dependencies": {
     "lucide-react": "^0.469.0",

@@ -29,16 +29,13 @@ jobs:
       - name: Installer les dépendances
         run: npm ci
 
-      # Site projet : https://user.github.io/NOM_DU_REPO/  (ex. cdn_webpage → /cdn_webpage/)
-      # Site utilisateur : repo nommé <owner>.github.io → base /
+      # Site projet : https://user.github.io/NOM_DU_REPO/ (ex. cdn_webpage → /cdn_webpage/)
+      # Site utilisateur : repo <owner>.github.io → base /
+      # Le fallback SPA (404.html) est généré par vite.config.js (plugin comme lanima/web).
       - name: Build (base path GitHub Pages)
         run: npm run build
         env:
-          VITE_BASE: ${{ github.event.repository.name == format('{0}.github.io', github.repository_owner) && '/' || format('/{0}/', github.event.repository.name) }}
-
-      # SPA : les URLs directes (/moteurs, etc.) renvoient 404 sans ce fichier.
-      - name: Fallback SPA (404)
-        run: cp dist/index.html dist/404.html
+          VITE_BASE_PATH: ${{ github.event.repository.name == format('{0}.github.io', github.repository_owner) && '/' || format('/{0}/', github.event.repository.name) }}
 
       - uses: actions/upload-pages-artifact@v3
         with:
