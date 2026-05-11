@@ -7,7 +7,7 @@
     "node": ">=18"
   },
   "scripts": {
-    "dev": "bash scripts/with-zshrc-env.sh vite",
+    "dev": "bash scripts/with-zshrc-env.sh vite dev",
     "build": "bash scripts/with-zshrc-env.sh vite build",
     "preview": "bash scripts/with-zshrc-env.sh vite preview",
     "build:github": "bash scripts/with-zshrc-env.sh bash -c 'node scripts/check-node.mjs && VITE_BASE_PATH=/ vite build'",

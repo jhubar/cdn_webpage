@@ -242,8 +242,8 @@ export function HomePage() {
           </div>
           <div className="order-1 overflow-hidden rounded-2xl border border-white/10 lg:order-2">
             <img
-              src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1000&q=70"
-              alt="Équipe et site CDN — placeholder"
+              src={publicAsset("/equipe.jpg")}
+              alt="Équipe CDN Automobiles — Liège"
               className="h-full min-h-[260px] w-full object-cover transition duration-300 hover:opacity-95"
               loading="lazy"
             />

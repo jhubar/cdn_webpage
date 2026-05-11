@@ -87,19 +87,25 @@ export function PartRequestForm() {
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
             <label
-              htmlFor="vin"
+              htmlFor="chassis"
               className="mb-1.5 block font-display text-xs font-semibold uppercase tracking-wider text-slate-400"
             >
-              Immatriculation ou VIN{" "}
+              Numéro de châssis{" "}
               <span className="font-normal lowercase text-slate-600">
                 (optionnel)
               </span>
             </label>
             <input
-              id="vin"
-              name="vin"
+              id="chassis"
+              name="chassis"
               type="text"
-              placeholder="Plaque ou numéro de chassis"
+              autoComplete="off"
+              inputMode="text"
+              minLength={17}
+              maxLength={17}
+              pattern="[A-Za-z0-9]{17}"
+              title="17 caractères alphanumériques (norme VIN), ou laissez vide"
+              placeholder="17 caractères — vide si inconnu"
               className="w-full cursor-text rounded-lg border border-white/10 bg-charcoal-deep px-4 py-3 text-slate-100 placeholder:text-slate-600 transition duration-200 focus:border-recycle/50 focus:outline-none focus:ring-2 focus:ring-recycle/30"
             />
           </div>

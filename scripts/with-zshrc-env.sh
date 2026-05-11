@@ -1,29 +1,23 @@
 #!/usr/bin/env bash
-# Charge ~/.zshrc (nvm, PATH, etc.) puis exécute la commande — npm utilise souvent un Node trop ancien sans ça.
+# En local : ton Node / conda / nvm viennent de ~/.zshrc — il ne faut pas le sourcer depuis bash
+# (syntaxe zsh, `exit`, garde interactive → npm run dev peut quitter tout de suite sans message).
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-cd "$REPO_ROOT"
 
-# GitHub Actions / autres CI : Node vient de setup-node ; charger ~/.zshrc peut casser le PATH ou faire échouer le script (set -e).
-if [[ "${GITHUB_ACTIONS:-}" == "true" ]] || [[ "${CI:-}" == "true" ]]; then
+if [[ "${GITHUB_ACTIONS:-}" == "true" ]]; then
+  cd "$REPO_ROOT"
   exec "$@"
 fi
 
-if [[ -f "${HOME}/.zshrc" ]]; then
-  # shellcheck disable=SC1090
-  source "${HOME}/.zshrc" 2>/dev/null || true
+export PATH="$REPO_ROOT/node_modules/.bin:${PATH:-}"
+
+if command -v zsh &>/dev/null; then
+  quoted_root=$(printf "%q" "$REPO_ROOT")
+  quoted_cmd=$(printf "%q " "$@")
+  exec zsh -ilc "cd $quoted_root && exec $quoted_cmd"
 fi
 
-export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
-if [[ -s "$NVM_DIR/nvm.sh" ]]; then
-  # shellcheck disable=SC1091
-  source "$NVM_DIR/nvm.sh"
-fi
-
-if command -v nvm &>/dev/null; then
-  nvm use 2>/dev/null || true
-fi
-
+cd "$REPO_ROOT"
 exec "$@"
