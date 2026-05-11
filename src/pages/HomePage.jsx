@@ -1,10 +1,9 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Hero } from "../components/Hero";
 import { PartRequestForm } from "../components/PartRequestForm";
 import { ServiceCard } from "../components/ServiceCard";
 import { TrustBadge } from "../components/TrustBadge";
 import { ContactCard } from "../components/ContactCard";
-import { useScrollToHash } from "../hooks/useScrollToHash";
 import { publicAsset } from "../utils/publicAsset";
 import {
   Car,
@@ -74,9 +73,6 @@ const stats = [
 ];
 
 export function HomePage() {
-  const { hash } = useLocation();
-  useScrollToHash(hash);
-
   return (
     <>
       <Hero />
