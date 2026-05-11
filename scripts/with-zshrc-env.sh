@@ -6,6 +6,11 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$REPO_ROOT"
 
+# GitHub Actions / autres CI : Node vient de setup-node ; charger ~/.zshrc peut casser le PATH ou faire échouer le script (set -e).
+if [[ "${GITHUB_ACTIONS:-}" == "true" ]] || [[ "${CI:-}" == "true" ]]; then
+  exec "$@"
+fi
+
 if [[ -f "${HOME}/.zshrc" ]]; then
   # shellcheck disable=SC1090
   source "${HOME}/.zshrc" 2>/dev/null || true
